@@ -1,14 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CLandingPage;
 use App\Http\Controllers\CAuth;
 use App\Http\Controllers\CLaporan;
 use App\Http\Controllers\CKomentar;
 use App\Http\Controllers\CPeta;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [CLandingPage::class, 'index'] ) ->name('');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

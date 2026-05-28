@@ -7,6 +7,7 @@
     <title>laporBanjir - Sistem Pelaporan Banjir</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
@@ -823,49 +824,73 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-card">
+
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <span class="text-white fw-semibold" style="font-size:0.9rem;">
                                 <i class="bi bi-geo-alt-fill text-danger me-1"></i>Peta Pemantauan Live
                             </span>
-                            <span class="badge" style="background:rgba(244,67,54,0.25);color:#ff6b6b;font-size:0.7rem;">
-                                <i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>LIVE
+
+                            <span class="badge"
+                                style="background:rgba(244,67,54,0.25);color:#ff6b6b;font-size:0.7rem;">
+                                <i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>
+                                LIVE
                             </span>
                         </div>
-                        <div class="hero-map-placeholder">
-                            <div class="pulse-dot"></div>
-                            <div class="pulse-dot"></div>
-                            <div class="pulse-dot"></div>
-                            <i class="bi bi-map" style="font-size:2.5rem;"></i>
-                            <span>Peta interaktif tersedia di aplikasi</span>
+
+                        <!-- MAP -->
+                        <div id="heroMap" class="hero-map-placeholder" style="height:220px; border-radius:14px;">
                         </div>
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <span style="font-size:0.82rem;color:rgba(255,255,255,0.6);">Laporan Terbaru</span>
-                            <span style="font-size:0.78rem;color:var(--blue-light);">Lihat semua →</span>
+
+                        <!-- HEADER LOG -->
+                        <div class="d-flex align-items-center justify-content-between mb-2 mt-3">
+                            <span style="font-size:0.82rem;color:rgba(255,255,255,0.6);">
+                                Laporan Terbaru
+                            </span>
                         </div>
-                        <div class="report-row">
-                            <span class="level-badge level-tinggi">TINGGI</span>
-                            <div style="flex:1">
-                                <div style="font-size:0.85rem;color:#fff;font-weight:600;">Jl. Gatot Subroto, Jakarta</div>
-                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);">2 menit lalu &bull; ±120 cm</div>
+
+                        <!-- LOG DINAMIS -->
+                        @forelse($laporan->take(3) as $item)
+
+                            @php
+                                $badge = 'level-waspada';
+
+                                if($item->tinggi_air >= 150) $badge = 'level-tinggi';
+                                elseif($item->tinggi_air >= 100) $badge = 'level-sedang';
+                                elseif($item->tinggi_air >= 50) $badge = 'level-waspada';
+                            @endphp
+
+                            <div class="report-row">
+
+                                <span class="level-badge {{ $badge }}">
+                                    {{ $item->tinggi_air >= 150 ? 'SIAGA 1' :
+                                    ($item->tinggi_air >= 100 ? 'SIAGA 2' :
+                                    ($item->tinggi_air >= 50 ? 'SIAGA 3' : 'SIAGA 4')) }}
+                                </span>
+
+                                <div style="flex:1">
+                                    <div style="font-size:0.85rem;color:#fff;font-weight:600;">
+                                        {{ $item->lokasi }}
+                                    </div>
+
+                                    <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);">
+                                        {{ $item->created_at->diffForHumans() }}
+                                        • ±{{ $item->tinggi_air }} cm
+                                    </div>
+                                </div>
+
+                                <a href="/laporan/{{ $item->id }}">
+                                    <i class="bi bi-chevron-right"
+                                    style="color:rgba(255,255,255,0.3);font-size:0.8rem;"></i>
+                                </a>
+
                             </div>
-                            <i class="bi bi-chevron-right" style="color:rgba(255,255,255,0.3);font-size:0.8rem;"></i>
-                        </div>
-                        <div class="report-row">
-                            <span class="level-badge level-sedang">SEDANG</span>
-                            <div style="flex:1">
-                                <div style="font-size:0.85rem;color:#fff;font-weight:600;">Kelurahan Duren Sawit</div>
-                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);">8 menit lalu &bull; ±60 cm</div>
+
+                        @empty
+                            <div class="text-white-50 small">
+                                Belum ada laporan masuk
                             </div>
-                            <i class="bi bi-chevron-right" style="color:rgba(255,255,255,0.3);font-size:0.8rem;"></i>
-                        </div>
-                        <div class="report-row">
-                            <span class="level-badge level-waspada">WASPADA</span>
-                            <div style="flex:1">
-                                <div style="font-size:0.85rem;color:#fff;font-weight:600;">Kawasan Pluit Utara</div>
-                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);">15 menit lalu &bull; ±30 cm</div>
-                            </div>
-                            <i class="bi bi-chevron-right" style="color:rgba(255,255,255,0.3);font-size:0.8rem;"></i>
-                        </div>
+                        @endforelse
+
                     </div>
                 </div>
             </div>
@@ -1105,6 +1130,105 @@
     </footer>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+      const map = L.map('heroMap')
+        .setView([-3.9985, 122.5120], 12);
+
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            attribution: '&copy; OpenStreetMap'
+        }
+    ).addTo(map);
+
+    const laporan = @json($laporan);
+
+    laporan.forEach(function(item) {
+
+        // Hilangkan marker jika laporan selesai / ditolak
+        if (
+            item.status == 'ditolak' ||
+            item.status == 'selesai'
+        ) {
+            return;
+        }
+
+        let warna;
+        let statusSiaga;
+
+        const tinggi = parseInt(item.tinggi_air);
+
+        // KATEGORI SIAGA
+        if (tinggi >= 150) {
+
+            warna = 'darkred';
+            statusSiaga = 'Siaga 1 - Bahaya Mengancam Nyawa';
+
+        } else if (tinggi >= 100) {
+
+            warna = 'red';
+            statusSiaga = 'Siaga 2 - Darurat';
+
+        } else if (tinggi >= 50) {
+
+            warna = 'orange';
+            statusSiaga = 'Siaga 3 - Waspada';
+
+        } else {
+
+            warna = 'yellow';
+            statusSiaga = 'Siaga 4 - Banjir Biasa';
+
+        }
+
+        const marker = L.circleMarker(
+            [item.latitude, item.longitude],
+            {
+                radius: 10,
+                color: warna,
+                fillColor: warna,
+                fillOpacity: 0.8
+            }
+        ).addTo(map);
+
+        marker.bindPopup(`
+            <div style="width:220px;">
+
+                <h6>${item.judul}</h6>
+
+                <p>
+                    ${item.lokasi}
+                </p>
+
+                <p>
+                    Tinggi Air:
+                    ${item.tinggi_air} cm
+                </p>
+
+                <p>
+                    <strong>${statusSiaga}</strong>
+                </p>
+
+                <p>
+                    Status:
+                    ${item.status}
+                </p>
+
+                <a href="/laporan/${item.id}"
+                   class="btn btn-sm btn-primary">
+
+                    Detail
+
+                </a>
+
+            </div>
+        `);
+
+    });
+
+    </script>
     <script>
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-link');
