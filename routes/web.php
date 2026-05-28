@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CAuth;
+use App\Http\Controllers\CLaporan;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\CAuth;
+
 
 // ======================
 // REGISTER
@@ -43,6 +45,20 @@ Route::post('/logout',
     [CAuth::class, 'logout'])
     ->name('logout');
 
+// ======================
+// Laporan  
+// ======================
+
+
+Route::middleware('auth')->group(function () {
+
+    Route::get('/buatlaporan', [CLaporan::class, 'buat'])
+        ->name('buatlaporan');
+
+    Route::post('/simpanlaporan', [CLaporan::class, 'simpan'])
+        ->name('simpanlaporan');
+
+});
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
