@@ -58,7 +58,7 @@ class CLaporan extends Controller
             'status' => 'menunggu'
         ]);
 
-        return redirect('/buatlaporan')
+        return redirect('/buat-laporan')
             ->with('success', 'Laporan berhasil dikirim');
     }
     public function lihat($id)
@@ -68,28 +68,4 @@ class CLaporan extends Controller
         return view('laporandetail', compact('laporan'));
     }
 
-    public function komentar(Request $request, $id)
-    {
-        $request->validate([
-            'pesan' => 'required'
-        ], [
-            'pesan.required' =>
-            'Pesan wajib diisi'
-        ]);
-
-        Komentar::create([
-
-            'laporan_id' => $id,
-
-            'user_id' => Auth::id(),
-
-            'pesan' => $request->pesan
-
-        ]);
-
-        return back()->with(
-            'success',
-            'Komentar berhasil dikirim'
-        );
-    }
 }

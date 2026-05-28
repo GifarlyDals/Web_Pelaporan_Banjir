@@ -33,9 +33,9 @@
 
             @endif
 
-            <div class="table-responsive">
+            <div class="table-responsive" style="overflow-x:auto;">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" style="min-width:900px;">
 
                     <thead class="thead-light">
 
