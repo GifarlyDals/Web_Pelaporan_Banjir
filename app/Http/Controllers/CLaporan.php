@@ -3,11 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+use App\Models\Komentar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CLaporan extends Controller
 {
+    public function index()
+    {
+        $laporan = Laporan::where(
+            'user_id',
+            Auth::id()
+        )->latest()->get();
+
+        return view(
+            'userlaporan',
+            compact('laporan')
+        );
+    }
     public function buat()
     {
         return view('buatlaporan');
@@ -47,5 +60,36 @@ class CLaporan extends Controller
 
         return redirect('/buatlaporan')
             ->with('success', 'Laporan berhasil dikirim');
+    }
+    public function lihat($id)
+    {
+        $laporan = Laporan::with('komentar.user')->findOrFail($id);
+
+        return view('laporandetail', compact('laporan'));
+    }
+
+    public function komentar(Request $request, $id)
+    {
+        $request->validate([
+            'pesan' => 'required'
+        ], [
+            'pesan.required' =>
+            'Pesan wajib diisi'
+        ]);
+
+        Komentar::create([
+
+            'laporan_id' => $id,
+
+            'user_id' => Auth::id(),
+
+            'pesan' => $request->pesan
+
+        ]);
+
+        return back()->with(
+            'success',
+            'Komentar berhasil dikirim'
+        );
     }
 }

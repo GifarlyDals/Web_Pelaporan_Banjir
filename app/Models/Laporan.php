@@ -19,4 +19,14 @@ class Laporan extends Model
         'longitude',
         'status'
     ];
+
+    public function komentar()
+    {
+        return $this->hasMany(Komentar::class, 'laporan_id');
+    }   
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

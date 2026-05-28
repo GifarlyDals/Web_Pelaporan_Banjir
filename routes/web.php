@@ -52,13 +52,37 @@ Route::post('/logout',
 
 Route::middleware('auth')->group(function () {
 
-    Route::get('/buatlaporan', [CLaporan::class, 'buat'])
+    Route::get('/buat-laporan', [CLaporan::class, 'buat'])
         ->name('buatlaporan');
 
-    Route::post('/simpanlaporan', [CLaporan::class, 'simpan'])
+    Route::post('/simpan-laporan', [CLaporan::class, 'simpan'])
         ->name('simpanlaporan');
 
 });
 
+// ======================
+// Laporan   Saya
+// ======================
+
+Route::get('/laporan-saya',
+    [CLaporan::class, 'index']
+)->name('laporansaya');
+
+// ======================
+// Detail Laporan
+// ======================
+Route::get(
+    '/laporan/{id}',
+    [CLaporan::class, 'lihat']
+)->name('laporan.detail');
+
+
+// ======================
+// Komentar Laporan
+// ======================
+Route::post(
+    '/laporan/{id}/komentar',
+    [CLaporan::class, 'komentar']
+)->name('laporan.komentar');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
