@@ -780,7 +780,6 @@
                     <li class="nav-item"><a class="nav-link" href="#fitur">Fitur</a></li>
                     <li class="nav-item"><a class="nav-link" href="#cara-kerja">Cara Kerja</a></li>
                     <li class="nav-item"><a class="nav-link" href="#level-banjir">Level Banjir</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#statistik">Statistik</a></li>
                 </ul>
                 <div class="d-flex gap-2 mt-3 mt-lg-0">
                     <a href="{{ route('login') }}" class="nav-link">Masuk</a>
@@ -794,8 +793,6 @@
         <div class="container-lg pt-5">
             <div class="row align-items-center px-0">
                 <div class="col-lg-6">
-                    <div class="hero-badge">
-                    </div>
                     <h1 class="hero-title">
                         Laporkan Banjir,<br>
                         <span class="highlight">Selamatkan Nyawa</span><br>
@@ -805,22 +802,6 @@
                         Platform pelaporan banjir real-time yang menghubungkan masyarakat, relawan, dan pemerintah
                         untuk respons bencana yang lebih cepat dan efektif.
                     </p>
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">42K+</div>
-                            <div class="stat-label">Pengguna Aktif</div>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-item">
-                            <div class="stat-number">180+</div>
-                            <div class="stat-label">Kota Terlindungi</div>
-                        </div>
-                        <div class="stat-divider"></div>
-                        <div class="stat-item">
-                            <div class="stat-number">99.9%</div>
-                            <div class="stat-label">Uptime Sistem</div>
-                        </div>
-                    </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="hero-card">
@@ -848,7 +829,7 @@
                             </span>
                         </div>
 
-                        <!-- LOG DINAMIS -->
+                        <!-- LOG -->
                         @forelse($laporan->take(3) as $item)
 
                             @php
@@ -927,15 +908,6 @@
                         </div>
                         <h5>Peta Interaktif</h5>
                         <p>Visualisasi sebaran banjir secara real-time dengan lapisan peta yang dapat dikustomisasi sesuai kebutuhan.</p>
-                    </div>
-                </div>
-                <div class="col-md-6 col-lg-4">
-                    <div class="feature-card">
-                        <div class="feature-icon-wrap icon-purple">
-                            <i class="bi bi-bar-chart-fill"></i>
-                        </div>
-                        <h5>Analitik & Riwayat</h5>
-                        <p>Lorem Ipsum</p>
                     </div>
                 </div>
             </div>
@@ -1036,45 +1008,7 @@
         </div>
     </section>
 
-    <!-- ──────────────── STATISTIK ──────────────── -->
-    <section id="statistik" class="stats-section">
-        <div class="container-lg">
-            <div class="text-center mb-5">
-                <div class="section-label" style="color:var(--blue-light)">Dampak Nyata</div>
-                <h2 class="section-title" style="color:#fff">Angka yang Bicara Sendiri</h2>
-            </div>
-            <div class="row g-4">
-                <div class="col-6 col-md-3">
-                    <div class="stat-card-dark">
-                        <i class="bi bi-cloud-rain-heavy-fill"></i>
-                        <div class="big-number">12,400+</div>
-                        <div class="big-label">Laporan Diterima</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card-dark">
-                        <i class="bi bi-people-fill"></i>
-                        <div class="big-number">42,700</div>
-                        <div class="big-label">Pengguna Aktif</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card-dark">
-                        <i class="bi bi-heart-pulse-fill"></i>
-                        <div class="big-number">8,900+</div>
-                        <div class="big-label">Jiwa Terselamatkan</div>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3">
-                    <div class="stat-card-dark">
-                        <i class="bi bi-lightning-charge-fill"></i>
-                        <div class="big-number">&lt;5 min</div>
-                        <div class="big-label">Rata-rata Respons</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
 
     <!-- ──────────────── FOOTER ──────────────── -->

@@ -21,35 +21,12 @@
     <link href="{{ asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <!-- leaflet -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-        crossorigin="" />
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
 
 </head>
 
-@php
 
-    use App\Models\Laporan;
-
-    $alerts = Laporan::latest()
-        ->take(3)
-        ->get();
-
-    $jumlahAlerts = Laporan::where(
-        'status',
-        'verifikasi'
-    )->count();
-
-    use App\Models\Komentar;
-
-    $messages = Komentar::with('user')
-        ->latest()
-        ->take(3)
-        ->get();
-
-    $jumlahPesan = Komentar::count();
-
-@endphp
 
 <body id="page-top">
 
@@ -74,19 +51,6 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -129,74 +93,73 @@
                                 <h6 class="dropdown-header">
                                     Notifikasi
                                 </h6>
-   
-                               @forelse($alerts as $item)
 
-                                    <a class="dropdown-item d-flex align-items-center"
-                                    href="/laporan/{{ $item->id }}">
+                                @forelse($alerts as $item)
 
-                                        <div class="mr-3">
+                                <a class="dropdown-item d-flex align-items-center" href="/laporan/{{ $item->id }}">
 
-                                            @if($item->tinggi_air >= 150)
+                                    <div class="mr-3">
 
-                                                <div class="icon-circle bg-danger">
+                                        @if($item->tinggi_air >= 150)
 
-                                                    <i class="fas fa-exclamation-triangle text-white"></i>
+                                        <div class="icon-circle bg-danger">
 
-                                                </div>
-
-                                            @elseif($item->tinggi_air >= 100)
-
-                                                <div class="icon-circle bg-warning">
-
-                                                    <i class="fas fa-water text-white"></i>
-
-                                                </div>
-
-                                            @else
-
-                                                <div class="icon-circle bg-primary">
-
-                                                    <i class="fas fa-map-marker-alt text-white"></i>
-
-                                                </div>
-
-                                            @endif
+                                            <i class="fas fa-exclamation-triangle text-white"></i>
 
                                         </div>
 
-                                        <div>
+                                        @elseif($item->tinggi_air >= 100)
 
-                                            <div class="small text-gray-500">
+                                        <div class="icon-circle bg-warning">
 
-                                                {{ $item->created_at->diffForHumans() }}
-
-                                            </div>
-
-                                            <span class="font-weight-bold">
-
-                                                {{ $item->judul }}
-
-                                            </span>
-
-                                            <div class="small">
-
-                                                Tinggi air:
-                                                {{ $item->tinggi_air }} cm
-
-                                            </div>
+                                            <i class="fas fa-water text-white"></i>
 
                                         </div>
 
-                                    </a>
+                                        @else
+
+                                        <div class="icon-circle bg-primary">
+
+                                            <i class="fas fa-map-marker-alt text-white"></i>
+
+                                        </div>
+
+                                        @endif
+
+                                    </div>
+
+                                    <div>
+
+                                        <div class="small text-gray-500">
+
+                                            {{ $item->created_at->diffForHumans() }}
+
+                                        </div>
+
+                                        <span class="font-weight-bold">
+
+                                            {{ $item->judul }}
+
+                                        </span>
+
+                                        <div class="small">
+
+                                            Tinggi air:
+                                            {{ $item->tinggi_air }} cm
+
+                                        </div>
+
+                                    </div>
+
+                                </a>
 
                                 @empty
 
-                                    <div class="dropdown-item text-center small text-gray-500">
+                                <div class="dropdown-item text-center small text-gray-500">
 
-                                        Belum ada notifikasi
+                                    Belum ada notifikasi
 
-                                    </div>
+                                </div>
 
                                 @endforelse
                             </div>
@@ -208,56 +171,69 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-envelope fa-fw"></i>
                                 <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">    {{ $jumlahPesan }}</span>
+                                <span class="badge badge-danger badge-counter"> {{ $jumlahPesan }}</span>
                             </a>
                             <!-- Dropdown - Messages -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
-                                    Message Center
+                                    Pesan
                                 </h6>
                                 @forelse($messages as $item)
 
-                                    <a class="dropdown-item d-flex align-items-center"
+                                <a class="dropdown-item d-flex align-items-center"
                                     href="/laporan/{{ $item->laporan_id }}">
 
-                                        <div class="dropdown-list-image mr-3">
+                                    <div class="dropdown-list-image mr-3">
 
-                                            <img class="rounded-circle"
-                                                src="https://ui-avatars.com/api/?name={{ $item->user->name }}"
-                                                alt="...">
+                                        <img class="rounded-circle"
+                                            src="https://ui-avatars.com/api/?name={{ $item->user->name }}" alt="...">
 
-                                            <div class="status-indicator bg-success"></div>
+                                        <div class="status-indicator bg-success"></div>
 
-                                        </div>
+                                    </div>
 
-                                        <div>
 
-                                            <div class="text-truncate">
 
-                                                {{ $item->pesan }}
+                                    <div>
 
-                                            </div>
+                                        <div class="text-truncate">
 
-                                            <div class="small text-gray-500">
-
-                                                {{ $item->user->name }}
-                                                ·
-                                                {{ $item->created_at->diffForHumans() }}
-
-                                            </div>
+                                            {{ $item->pesan }}
 
                                         </div>
 
-                                    </a>
+
+                                        <div class="small text-truncate">
+
+                                            Dari:
+                                            {{ $item->user->name }}
+
+                                            <br>
+
+                                            Laporan:
+                                            {{ $item->laporan->judul ?? 'Laporan tidak ditemukan' }}
+
+                                            <br>
+
+                                            {{ $item->created_at->diffForHumans() }}
+
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                </a>
 
                                 @empty
 
-                                    <div class="dropdown-item text-center small text-gray-500">
+                                <div class="dropdown-item text-center small text-gray-500">
 
-                                        Belum ada pesan
+                                    Belum ada pesan
 
-                                    </div>
+                                </div>
 
                                 @endforelse
 
@@ -270,21 +246,19 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name
+                                    }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="{{ asset('admin/img/undraw_profile.svg')}}">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Activity Log
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{{ route('logout') }}" data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" href="{{ route('logout') }}" data-toggle="modal"
+                                    data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Keluar
                                 </a>
                             </div>
                         </li>
@@ -324,8 +298,8 @@
 
     <!-- Logout Modal-->
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
 
         <div class="modal-dialog" role="document">
 
@@ -334,11 +308,10 @@
                 <div class="modal-header">
 
                     <h5 class="modal-title" id="exampleModalLabel">
-                        Ready to Leave?
+                        Yakin Untuk Keluar?
                     </h5>
 
-                    <button class="close" type="button" data-dismiss="modal"
-                        aria-label="Close">
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
 
                         <span aria-hidden="true">×</span>
 
@@ -347,16 +320,14 @@
                 </div>
 
                 <div class="modal-body">
-                    Select "Logout" below if you are ready to end your current session.
+                    Pilih "Keluar" dibawah untuk keluar dari dashboard dan akun
                 </div>
 
                 <div class="modal-footer">
 
-                    <button class="btn btn-secondary"
-                        type="button"
-                        data-dismiss="modal">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">
 
-                        Cancel
+                        Batalkan
 
                     </button>
 
@@ -365,7 +336,7 @@
                         @csrf
 
                         <button type="submit" class="btn btn-primary">
-                            Logout
+                            Keluar
                         </button>
 
                     </form>

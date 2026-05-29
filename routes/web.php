@@ -7,6 +7,7 @@ use App\Http\Controllers\CLaporan;
 use App\Http\Controllers\CLaporanAdmin;
 use App\Http\Controllers\CKomentar;
 use App\Http\Controllers\CPeta;
+use App\Http\Controllers\CAdminDashboard;
 
 Route::get('/', [CLandingPage::class, 'index'])->name('');
 
@@ -111,34 +112,28 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
-    // ======================
-    // Komentar Laporan
-    // ======================
+
     Route::post(
         '/laporan/{id}/komentar',
         [CKomentar::class, 'store']
     )->name('laporan.komentar');
-
-    Route::get(
-        '/laporan/{id}',
-        [CLaporanAdmin::class, 'lihat']
-    )->name('admin.laporan.lihat');
 });
 
 
-// Admin
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
-    Route::get('/dashboard', function () {
-
-        return view('admin.dashboard');
-    });
+    Route::get('/dashboard',  [CAdminDashboard::class, 'index'] )
+    ->name('admin.dashboard');
 
     Route::get(
         '/laporan',
         [CLaporanAdmin::class, 'index']
     )->name('admin.laporan');
 
+    Route::get(
+        '/laporan/{id}',
+        [CLaporanAdmin::class, 'lihat']
+    )->name('admin.laporan.lihat');
 
     Route::put(
         '/laporan/{id}/status',

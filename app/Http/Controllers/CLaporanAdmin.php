@@ -26,6 +26,9 @@ class CLaporanAdmin extends Controller
     {
         $laporan = Laporan::with([
             'user',
+            'komentar' => function ($query) {
+                $query->latest();
+            },
             'komentar.user'
         ])->findOrFail($id);
 

@@ -199,121 +199,320 @@
                 font-size: 1.7rem;
             }
         }
+
+        .navbar {
+            background: rgba(10, 37, 64, 0.97);
+            backdrop-filter: blur(12px);
+            padding: 1rem 0;
+        }
+
+        /* RIGHT SIDE */
+        .auth-side {
+
+            position: relative;
+
+            background:
+                linear-gradient(rgba(10, 37, 64, 0.78),
+                    rgba(18, 77, 150, 0.82)),
+                url('https://images.unsplash.com/photo-1527489377706-5bf97e608852?q=80&w=1400&auto=format&fit=crop');
+
+            background-size: cover;
+
+            background-position: center;
+
+            overflow: hidden;
+        }
+
+        /* GLASS CARD */
+        .auth-card {
+
+            position: relative;
+
+            z-index: 5;
+
+            width: 100%;
+            max-width: 430px;
+
+            padding: 40px;
+
+            border-radius: 24px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+
+            backdrop-filter: blur(16px);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.35);
+        }
+
+        /* EFFECT */
+        .floating-circle {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            filter: blur(10px);
+        }
+
+        .circle-1 {
+
+            width: 280px;
+            height: 280px;
+
+            background: rgba(59, 158, 255, 0.3);
+
+            top: -80px;
+            right: -80px;
+        }
+
+        .circle-2 {
+
+            width: 220px;
+            height: 220px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            bottom: -70px;
+            left: -70px;
+        }
+
+        /* BUTTON BACK */
+        .btn-back {
+
+            position: absolute;
+
+            top: 25px;
+            left: 25px;
+
+            z-index: 10;
+
+            padding: 10px 18px;
+
+            border-radius: 14px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            color: white;
+
+            text-decoration: none;
+
+            backdrop-filter: blur(12px);
+
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+
+            background: rgba(255, 255, 255, 0.16);
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- ───────── LOGIN ───────── -->
-    <div class="auth-wrapper">
+    <div class="container-fluid min-vh-100">
 
-        <div class="auth-card">
+        <div class="row min-vh-100">
 
-            <div class="text-center mb-4">
+            <!-- LEFT SIDE -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center px-5"
+                style="background: linear-gradient(135deg,#0a2540,#124d96);">
+                <!-- BUTTON BACK -->
+                <a href="{{ url('/') }}" class="btn-back">
 
-                <div class="brand mb-2">
-                    <i class="bi bi-water"></i>
-                    Lapor<span>Banjir</span>
-                </div>
+                    <i class="bi bi-arrow-left"></i>
 
-                <p class="text-light opacity-75">
-                    Buat akun untuk mulai melaporkan banjir
-                </p>
+                    Kembali
 
-            </div>
-
-            {{-- ALERT SUCCESS --}}
-            @if(session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-            @endif
-
-            {{-- ALERT ERROR --}}
-            @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0 ps-3">
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
-            <form action="{{ route('register.process') }}" method="POST">
-
-                @csrf
-
-                <div class="mb-3">
-
-                    <label class="form-label">Nama Lengkap</label>
-
-                    <input type="text"
-                        name="name"
-                        class="form-control"
-                        placeholder="Masukkan nama"
-                        value="{{ old('name') }}">
-
-                </div>
-
-                <div class="mb-3">
-
-                    <label class="form-label">Email</label>
-
-                    <input type="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="Masukkan email"
-                        value="{{ old('email') }}">
-
-                </div>
-
-                <div class="mb-4">
-
-                    <label class="form-label">Password</label>
-
-                    <input type="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Masukkan password">
-
-                </div>
-
-                <button class="btn btn-auth w-100">
-                    Register
-                </button>
-
-            </form>
-
-            <div class="text-center mt-4 text-small">
-
-                Sudah punya akun?
-
-                <a href="{{ route('login') }}" class="auth-link">
-                    Login
                 </a>
+                <div class="text-white">
+
+                    <h1 class="display-4 fw-bold mb-3">
+
+                        <i class="bi bi-water"></i>
+
+                        LaporBanjir
+
+                    </h1>
+
+                    <p class="lead opacity-75">
+
+                        Bergabung dan bantu masyarakat
+                        melaporkan kondisi banjir secara
+                        real-time dan akurat.
+
+                    </p>
+
+                    <div class="mt-5">
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <i class="bi bi-shield-check fs-4 me-3"></i>
+
+                            <div>
+                                Data laporan tersimpan aman
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <i class="bi bi-map-fill fs-4 me-3"></i>
+
+                            <div>
+                                Pantau titik banjir secara langsung
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="col-lg-6 auth-side d-flex align-items-center justify-content-center position-relative">
+
+
+
+                <!-- EFFECT -->
+                <div class="floating-circle circle-1"></div>
+                <div class="floating-circle circle-2"></div>
+
+                <!-- CARD -->
+                <div class="auth-card position-relative">
+
+                    <div class="text-center mb-4">
+
+                        <div class="brand mb-2">
+
+                            <i class="bi bi-water"></i>
+
+                            Lapor<span>Banjir</span>
+
+                        </div>
+
+                        <p class="text-light opacity-75">
+
+                            Buat akun untuk mulai melaporkan banjir
+
+                        </p>
+
+                    </div>
+
+                    @if(session('success'))
+
+                    <div class="alert alert-success">
+
+                        {{ session('success') }}
+
+                    </div>
+
+                    @endif
+
+                    @if($errors->any())
+
+                    <div class="alert alert-danger">
+
+                        <ul class="mb-0 ps-3">
+
+                            @foreach($errors->all() as $error)
+
+                            <li>{{ $error }}</li>
+
+                            @endforeach
+
+                        </ul>
+
+                    </div>
+
+                    @endif
+
+                    <form action="{{ route('register.process') }}" method="POST">
+
+                        @csrf
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Nama Lengkap
+                            </label>
+
+                            <input type="text" name="name" class="form-control" placeholder="Masukkan nama"
+                                value="{{ old('name') }}">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Email
+                            </label>
+
+                            <input type="email" name="email" class="form-control" placeholder="Masukkan email"
+                                value="{{ old('email') }}">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <input type="password" name="password" class="form-control" placeholder="Masukkan password">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+                                Konfirmasi Password
+                            </label>
+
+                            <input type="password" name="password_confirmation" class="form-control"
+                                placeholder="Ulangi password">
+
+                        </div>
+
+                        <button class="btn btn-auth w-100">
+
+                            Register
+
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-4">
+
+                        Sudah punya akun?
+
+                        <a href="{{ route('login') }}" class="auth-link">
+
+                            Login
+
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
         </div>
 
     </div>
-
-    <!-- ───────── FOOTER ───────── -->
-    <footer class="footer-custom py-4">
-
-        <div class="container text-center">
-
-
-            <p class="footer-bottom mb-0">
-                © 2025 LaporBanjir.
-                Seluruh hak dilindungi undang-undang.
-            </p>
-
-        </div>
-
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

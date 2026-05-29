@@ -7,7 +7,7 @@
     <title>Login - LaporBanjir</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap Icons -->
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
     <style>
@@ -199,91 +199,301 @@
                 font-size: 1.7rem;
             }
         }
+
+        .navbar {
+            background: rgba(10, 37, 64, 0.97);
+            backdrop-filter: blur(12px);
+            padding: 1rem 0;
+        }
+
+        .auth-card {
+
+            width: 100%;
+            max-width: 420px;
+
+            padding: 40px;
+
+            border-radius: 24px;
+
+            background: rgba(10, 37, 64, 0.92);
+
+            backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        .navbar-brand {
+
+            color: white !important;
+
+            font-weight: 800;
+
+            font-size: 1.4rem;
+        }
+
+        .brand-dot {
+
+            color: #3b9eff;
+        }
+
+        .form-control {
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .form-control:hover {
+
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .form-control:focus {
+
+            border-color: #3b9eff;
+
+            box-shadow:
+                0 0 0 0.15rem rgba(59, 158, 255, 0.25);
+        }
+
+        /* RIGHT SIDE BACKGROUND */
+        .auth-side {
+
+            position: relative;
+
+            background:
+                linear-gradient(rgba(10, 37, 64, 0.82),
+                    rgba(18, 77, 150, 0.82)),
+                url('https://images.unsplash.com/photo-1527489377706-5bf97e608852?q=80&w=1400&auto=format&fit=crop');
+
+            background-size: cover;
+
+            background-position: center;
+
+            overflow: hidden;
+        }
+
+        /* EFFECT CIRCLE */
+        .auth-side::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            background: rgba(59, 158, 255, 0.18);
+
+            border-radius: 50%;
+
+            top: -80px;
+            right: -80px;
+
+            filter: blur(20px);
+        }
+
+        .auth-side::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            background: rgba(255, 255, 255, 0.08);
+
+            border-radius: 50%;
+
+            bottom: -60px;
+            left: -60px;
+
+            filter: blur(10px);
+        }
+
+        /* BUTTON BACK */
+        .btn-back {
+
+            position: absolute;
+
+            top: 25px;
+            left: 25px;
+
+            z-index: 10;
+
+            border-radius: 12px;
+
+            padding: 10px 18px;
+
+            background: rgba(255, 255, 255, 0.12);
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            color: white;
+
+            text-decoration: none;
+
+            backdrop-filter: blur(10px);
+
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+
+            background: rgba(255, 255, 255, 0.2);
+
+            color: white;
+
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 
+
 <body>
 
-    <!-- ───────── LOGIN ───────── -->
-    <div class="auth-wrapper">
+    <div class="container-fluid min-vh-100">
 
-        <div class="auth-card">
+        <div class="row min-vh-100">
 
-            <div class="text-center mb-4">
+            <!-- LEFT SIDE -->
+            <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-center px-5"
+                style="background: linear-gradient(135deg,#0a2540,#124d96);">
+                <a href="{{ url('/') }}" class="btn-back">
 
-                <div class="brand mb-2">
-                    <i class="bi bi-water"></i>
-                    Lapor<span>Banjir</span>
-                </div>
+                    <i class="bi bi-arrow-left"></i>
 
-                <p class="text-light opacity-75 mb-0">
-                    Login ke akun Anda
-                </p>
+                    Kembali
 
-            </div>
-
-            {{-- ERROR LOGIN --}}
-            @if(session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-            @endif
-
-            {{-- VALIDATION --}}
-            @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0 ps-3">
-                    @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
-            <form action="{{ route('login.process') }}" method="POST">
-
-                @csrf
-
-                <div class="mb-3">
-
-                    <label class="form-label fw-semibold">
-                        Email
-                    </label>
-
-                    <input type="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="Masukkan email"
-                        value="{{ old('email') }}">
-
-                </div>
-
-                <div class="mb-4">
-
-                    <label class="form-label fw-semibold">
-                        Password
-                    </label>
-
-                    <input type="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Masukkan password">
-
-                </div>
-
-                <button type="submit" class="btn btn-auth w-100">
-                    Login
-                </button>
-
-            </form>
-
-            <div class="text-center mt-4">
-
-                Belum punya akun?
-
-                <a href="{{ route('register') }}" class="auth-link">
-                    Register
                 </a>
+                <div class="text-white">
+
+                    <h1 class="display-4 fw-bold mb-3">
+
+                        <i class="bi bi-water"></i>
+
+                        LaporBanjir
+
+                    </h1>
+
+                    <p class="lead opacity-75">
+
+                        Platform pelaporan banjir berbasis lokasi
+                        untuk membantu masyarakat melaporkan kondisi
+                        banjir secara real-time.
+
+                    </p>
+
+                    <div class="mt-5">
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <i class="bi bi-geo-alt-fill fs-4 me-3"></i>
+
+                            <div>
+                                Pelaporan berbasis titik koordinat
+                            </div>
+
+                        </div>
+
+                        <div class="d-flex align-items-center mb-3">
+
+                            <i class="bi bi-map-fill fs-4 me-3"></i>
+
+                            <div>
+                                Peta banjir interaktif
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE -->
+            <div class="col-lg-6 auth-side d-flex align-items-center justify-content-center">
+
+
+
+                <div class="auth-card">
+
+                    <div class="text-center mb-4">
+
+                        <div class="brand mb-2">
+
+                            <i class="bi bi-water"></i>
+
+                            Lapor<span>Banjir</span>
+
+                        </div>
+
+                        <p class="text-light opacity-75 mb-0">
+
+                            Login ke akun Anda
+
+                        </p>
+
+                    </div>
+
+                    @if(session('error'))
+
+                    <div class="alert alert-danger">
+
+                        {{ session('error') }}
+
+                    </div>
+
+                    @endif
+
+                    <form action="{{ route('login.process') }}" method="POST">
+
+                        @csrf
+
+                        <div class="mb-3">
+
+                            <label class="form-label fw-semibold">
+                                Email
+                            </label>
+
+                            <input type="email" name="email" class="form-control" placeholder="Masukkan email">
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label class="form-label fw-semibold">
+                                Password
+                            </label>
+
+                            <input type="password" name="password" class="form-control" placeholder="Masukkan password">
+
+                        </div>
+
+                        <button type="submit" class="btn btn-auth w-100">
+
+                            Login
+
+                        </button>
+
+                    </form>
+
+                    <div class="text-center mt-4">
+
+                        Belum punya akun?
+
+                        <a href="{{ route('register') }}" class="auth-link">
+
+                            Register
+
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
@@ -291,22 +501,8 @@
 
     </div>
 
-    <!-- ───────── FOOTER ───────── -->
-    <footer class="footer-custom py-4">
-
-        <div class="container text-center">
-
-
-            <p class="footer-bottom mb-0">
-                © 2025 LaporBanjir.
-                Seluruh hak dilindungi undang-undang.
-            </p>
-
-        </div>
-
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
+
+
 
 </html>
