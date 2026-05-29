@@ -8,6 +8,7 @@ use App\Http\Controllers\CLaporanAdmin;
 use App\Http\Controllers\CKomentar;
 use App\Http\Controllers\CPeta;
 use App\Http\Controllers\CAdminDashboard;
+use App\Http\Controllers\CUser;
 
 Route::get('/', [CLandingPage::class, 'index'])->name('');
 
@@ -139,4 +140,21 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
         '/laporan/{id}/status',
         [CLaporanAdmin::class, 'updateStatus']
     )->name('admin.laporan.status');
+
+    // CRUD USER
+
+    Route::get('/user', [CUser::class, 'index'])
+        ->name('admin.user');
+
+    Route::get('/user/buat', [CUser::class, 'buat'])
+        ->name('admin.user.buat');
+
+    Route::post('/user/simpan', [CUser::class, 'simpan'])
+        ->name('admin.user.simpan');
+
+    Route::put('/admin/user/update/{id}', [CUser::class, 'update'])
+        ->name('admin.user.update');
+
+    Route::delete('/admin/user/hapus/{id}', [CUser::class, 'hapus'])
+        ->name('admin.user.hapus');
 });

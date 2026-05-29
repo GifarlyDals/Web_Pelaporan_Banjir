@@ -345,22 +345,82 @@
 
     </div>
 
+
     <!-- Bootstrap core JavaScript-->
     <script src="{{ asset('admin/vendor/jquery/jquery.min.js')}}"></script>
     <script src="{{ asset('admin/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="{{ asset('admin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+    <script src="http://localhost:8000/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="{{ asset('admin/js/sb-admin-2.min.js')}}"></script>
+    <!-- DataTables Bootstrap 5 -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
 
-    <!-- Page level plugins -->
-    <script src="{{ asset('admin/vendor/chart.js/Chart.min.js')}}"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('admin/js/demo/chart-area-demo.js')}}"></script>
-    <script src="{{ asset('admin/js/demo/chart-pie-demo.js')}}"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- Custom scripts -->
+    <script src="http://localhost:8000/admin/js/sb-admin-2.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+    let table = $('#userTable').DataTable({
+        responsive: true,
+        language: {
+            search: "Cari User :",
+            lengthMenu: "Tampilkan _MENU_ data",
+            zeroRecords: "Data tidak ditemukan",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+            paginate: {
+                previous: "‹",
+                next: "›"
+            }
+        }
+    });
+
+    // ROLE FILTER FIX
+    $('#roleFilter').on('change', function () {
+
+        let val = $(this).val();
+
+        if (val === "") {
+            table.column(3).search("").draw();
+        } else {
+            table.column(3).search("^" + val + "$", true, false).draw();
+        }
+
+    });
+
+});
+    </script>
+
+    <script>
+        $(document).ready(function () {
+
+    let table = $('#laporanTable').DataTable({
+        responsive: true
+    });
+
+    // SEARCH STATUS
+    $('#statusFilter').on('change', function () {
+
+        let val = this.value;
+
+        table.column(3).search(val).draw();
+    });
+
+    // SEARCH TINGGI AIR
+    $('#airFilter').on('change', function () {
+
+        let val = this.value;
+
+        table.column(4).search(val).draw();
+    });
+
+});
+    </script>
 
 </body>
 
