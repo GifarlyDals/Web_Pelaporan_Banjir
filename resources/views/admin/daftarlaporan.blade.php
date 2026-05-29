@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.admin')
 
 @section('content')
 
@@ -6,59 +6,45 @@
 
     <div class="card shadow">
 
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-header">
 
             <h4 class="mb-0">
-                Laporan Saya
+                Semua Laporan User
             </h4>
-
-            <a href="{{ route('buatlaporan') }}" class="btn btn-primary">
-
-                Buat Laporan
-
-            </a>
 
         </div>
 
         <div class="card-body">
 
-            @if(session('success'))
+            <div class="table-responsive">
 
-            <div class="alert alert-success">
+                <table class="table table-bordered">
 
-                {{ session('success') }}
-
-            </div>
-
-            @endif
-
-            <div class="table-responsive" style="overflow-x:auto;">
-
-                <table class="table table-bordered" style="min-width:900px;">
-
-                    <thead class="thead-light">
+                    <thead>
 
                         <tr>
-
                             <th>No</th>
+                            <th>User</th>
                             <th>Judul</th>
                             <th>Status</th>
-                            <th>Lokasi</th>
                             <th>Tanggal</th>
                             <th>Aksi</th>
-
                         </tr>
 
                     </thead>
 
                     <tbody>
 
-                        @forelse($laporan as $item)
+                        @foreach($laporan as $item)
 
                         <tr>
 
                             <td>
                                 {{ $loop->iteration }}
+                            </td>
+
+                            <td>
+                                {{ $item->user->name }}
                             </td>
 
                             <td>
@@ -96,18 +82,14 @@
                             </td>
 
                             <td>
-                                {{ $item->lokasi }}
-                            </td>
-
-                            <td>
-                                {{ $item->created_at->format('d M Y H:i') }}
+                                {{ $item->created_at->format('d M Y') }}
                             </td>
 
                             <td>
 
-                                <a href="{{ route('laporan.detail', $item->id) }}" class="btn btn-info btn-sm">
+                                <a href="{{ route('admin.laporan.lihat', $item->id) }}" class="btn btn-primary btn-sm">
 
-                                    Detail
+                                    Lihat
 
                                 </a>
 
@@ -115,19 +97,7 @@
 
                         </tr>
 
-                        @empty
-
-                        <tr>
-
-                            <td colspan="6" class="text-center">
-
-                                Belum ada laporan
-
-                            </td>
-
-                        </tr>
-
-                        @endforelse
+                        @endforeach
 
                     </tbody>
 

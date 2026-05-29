@@ -63,9 +63,10 @@ class CLaporan extends Controller
     }
     public function lihat($id)
     {
-        $laporan = Laporan::with('komentar.user')->findOrFail($id);
+        $laporan = Laporan::with('komentar.user')
+            ->where('user_id', Auth::id())
+            ->findOrFail($id);
 
         return view('laporandetail', compact('laporan'));
     }
-
 }

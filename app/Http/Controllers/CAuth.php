@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +37,7 @@ class CAuth extends Controller
         ]);
 
         return redirect('/login')
-               ->with('success', 'Register berhasil');
+            ->with('success', 'Register berhasil');
     }
 
     // ======================
@@ -63,8 +64,16 @@ class CAuth extends Controller
 
             $request->session()->regenerate();
 
-            return redirect('/home');
+            // CEK ROLE
+            if (Auth::user()->role == 'admin') {
+
+                return redirect('/admin/dashboard');
+            } else {
+
+                return redirect('/home');
+            }
         }
+
 
         return back()->with(
             'error',

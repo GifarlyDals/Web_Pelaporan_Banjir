@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>LaporBanjir - Dashboard</title>
+    <title>LaporBanjir - Admin</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
     <link href="{{ asset('admin/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -57,7 +57,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('layouts/user-sidebar')
+        @include('layouts/admin-sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
