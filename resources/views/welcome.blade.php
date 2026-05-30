@@ -7,9 +7,10 @@
     <title>laporBanjir - Sistem Pelaporan Banjir</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
 
     <style>
         :root {
@@ -85,6 +86,8 @@
             display: flex;
             align-items: center;
             overflow: hidden;
+            z-index: 1;
+
         }
 
         .hero-section::before {
@@ -92,6 +95,13 @@
             position: absolute;
             inset: 0;
             background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233b9eff' fill-opacity='0.04'%3E%3Cpath d='M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-section>.container-lg {
+            position: relative;
+            z-index: 2;
         }
 
         /* wave SVG bottom */
@@ -747,7 +757,7 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-       
+
         @media (max-width: 768px) {
             section {
                 padding: 60px 0;
@@ -802,7 +812,21 @@
                         Platform pelaporan banjir real-time yang menghubungkan masyarakat, relawan, dan pemerintah
                         untuk respons bencana yang lebih cepat dan efektif.
                     </p>
+                    <div class="d-flex gap-3 mt-4 mb-4 mb-lg-0">
+
+                        <a href="/login" class="btn btn-primary px-4 py-2 fw-semibold">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>
+                            Masuk
+                        </a>
+
+                        <a href="/register" class="btn btn-outline-light px-4 py-2 fw-semibold">
+                            <i class="bi bi-person-plus me-1"></i>
+                            Daftar
+                        </a>
+
+                    </div>
                 </div>
+
                 <div class="col-lg-6">
                     <div class="hero-card">
 
@@ -811,8 +835,7 @@
                                 <i class="bi bi-geo-alt-fill text-danger me-1"></i>Peta Pemantauan Live
                             </span>
 
-                            <span class="badge"
-                                style="background:rgba(244,67,54,0.25);color:#ff6b6b;font-size:0.7rem;">
+                            <span class="badge" style="background:rgba(244,67,54,0.25);color:#ff6b6b;font-size:0.7rem;">
                                 <i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i>
                                 LIVE
                             </span>
@@ -832,44 +855,44 @@
                         <!-- LOG -->
                         @forelse($laporan->take(3) as $item)
 
-                            @php
-                                $badge = 'level-waspada';
+                        @php
+                        $badge = 'level-waspada';
 
-                                if($item->tinggi_air >= 150) $badge = 'level-tinggi';
-                                elseif($item->tinggi_air >= 100) $badge = 'level-sedang';
-                                elseif($item->tinggi_air >= 50) $badge = 'level-waspada';
-                            @endphp
+                        if($item->tinggi_air >= 150) $badge = 'level-tinggi';
+                        elseif($item->tinggi_air >= 100) $badge = 'level-sedang';
+                        elseif($item->tinggi_air >= 50) $badge = 'level-waspada';
+                        @endphp
 
-                            <div class="report-row">
+                        <div class="report-row">
 
-                                <span class="level-badge {{ $badge }}">
-                                    {{ $item->tinggi_air >= 150 ? 'SIAGA 1' :
-                                    ($item->tinggi_air >= 100 ? 'SIAGA 2' :
-                                    ($item->tinggi_air >= 50 ? 'SIAGA 3' : 'SIAGA 4')) }}
-                                </span>
+                            <span class="level-badge {{ $badge }}">
+                                {{ $item->tinggi_air >= 150 ? 'SIAGA 1' :
+                                ($item->tinggi_air >= 100 ? 'SIAGA 2' :
+                                ($item->tinggi_air >= 50 ? 'SIAGA 3' : 'SIAGA 4')) }}
+                            </span>
 
-                                <div style="flex:1">
-                                    <div style="font-size:0.85rem;color:#fff;font-weight:600;">
-                                        {{ $item->lokasi }}
-                                    </div>
-
-                                    <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);">
-                                        {{ $item->created_at->diffForHumans() }}
-                                        • ±{{ $item->tinggi_air }} cm
-                                    </div>
+                            <div style="flex:1">
+                                <div style="font-size:0.85rem;color:#fff;font-weight:600;">
+                                    {{ $item->lokasi }}
                                 </div>
 
-                                <a href="/laporan/{{ $item->id }}">
-                                    <i class="bi bi-chevron-right"
-                                    style="color:rgba(255,255,255,0.3);font-size:0.8rem;"></i>
-                                </a>
-
+                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.45);">
+                                    {{ $item->created_at->diffForHumans() }}
+                                    • ±{{ $item->tinggi_air }} cm
+                                </div>
                             </div>
+
+                            <a href="/laporan/{{ $item->id }}">
+                                <i class="bi bi-chevron-right"
+                                    style="color:rgba(255,255,255,0.3);font-size:0.8rem;"></i>
+                            </a>
+
+                        </div>
 
                         @empty
-                            <div class="text-white-50 small">
-                                Belum ada laporan masuk
-                            </div>
+                        <div class="text-white-50 small">
+                            Belum ada laporan masuk
+                        </div>
                         @endforelse
 
                     </div>
@@ -891,14 +914,15 @@
                 <div class="section-label">Fitur Unggulan</div>
                 <h2 class="section-title">Semua yang Anda Butuhkan,<br>dalam Satu Aplikasi</h2>
             </div>
-            <div class="row g-4">
+            <div class="row g-4 justify-content-center align-items-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="feature-card">
                         <div class="feature-icon-wrap icon-red">
                             <i class="bi bi-geo-alt-fill"></i>
                         </div>
                         <h5>Laporan Lokasi Real-Time</h5>
-                        <p>Kirim laporan banjir lengkap dengan foto, koordinat GPS, dan tinggi air hanya dalam hitungan detik.</p>
+                        <p>Kirim laporan banjir lengkap dengan foto, koordinat GPS, dan tinggi air hanya dalam hitungan
+                            detik.</p>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-4">
@@ -907,7 +931,8 @@
                             <i class="bi bi-map-fill"></i>
                         </div>
                         <h5>Peta Interaktif</h5>
-                        <p>Visualisasi sebaran banjir secara real-time dengan lapisan peta yang dapat dikustomisasi sesuai kebutuhan.</p>
+                        <p>Visualisasi sebaran banjir secara real-time dengan lapisan peta yang dapat dikustomisasi
+                            sesuai kebutuhan.</p>
                     </div>
                 </div>
             </div>
@@ -978,21 +1003,24 @@
                             <div class="level-icon">🟢</div>
                             <div>
                                 <h6>Siaga 4 — Normal</h6>
-                                <p class="text-success-emphasis">Tinggi air &lt;50 cm. Kondisi normal, tidak ada bahaya. Tetap pantau perkembangan cuaca.</p>
+                                <p class="text-success-emphasis">Tinggi air &lt;50 cm. Kondisi normal, tidak ada bahaya.
+                                    Tetap pantau perkembangan cuaca.</p>
                             </div>
                         </div>
                         <div class="level-card level-kuning">
                             <div class="level-icon">🟡</div>
                             <div>
                                 <h6>Siaga 3 — Waspada</h6>
-                                <p class="text-warning-emphasis">Tinggi air 50–100 cm. Mulai bersiap dan waspadai kondisi sekitar rumah Anda.</p>
+                                <p class="text-warning-emphasis">Tinggi air 50–100 cm. Mulai bersiap dan waspadai
+                                    kondisi sekitar rumah Anda.</p>
                             </div>
                         </div>
                         <div class="level-card level-merah">
                             <div class="level-icon">🔴</div>
                             <div>
                                 <h6>Siaga 2 — Darurat</h6>
-                                <p class="text-danger-emphasis">Tinggi air 100–150 cm. Evakuasi barang berharga dan bersiap pindah ke tempat aman.</p>
+                                <p class="text-danger-emphasis">Tinggi air 100–150 cm. Evakuasi barang berharga dan
+                                    bersiap pindah ke tempat aman.</p>
                             </div>
                         </div>
                         <div class="level-card level-hitam">
@@ -1062,12 +1090,12 @@
 
         </div>
     </footer>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-      const map = L.map('heroMap')
+        const map = L.map('heroMap')
         .setView([-3.9985, 122.5120], 12);
 
     L.tileLayer(

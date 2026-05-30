@@ -10,8 +10,8 @@ use App\Http\Controllers\CPeta;
 use App\Http\Controllers\CAdminDashboard;
 use App\Http\Controllers\CUser;
 
-Route::get('/', [CLandingPage::class, 'index'])->name('');
 
+Route::get('/', [CLandingPage::class, 'index'])->name('');
 
 
 
@@ -123,8 +123,8 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
-    Route::get('/dashboard',  [CAdminDashboard::class, 'index'] )
-    ->name('admin.dashboard');
+    Route::get('/dashboard',  [CAdminDashboard::class, 'index'])
+        ->name('admin.dashboard');
 
     Route::get(
         '/laporan',
