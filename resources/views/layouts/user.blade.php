@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('admin/img/icon.svg') }}">
 
     <title>LaporBanjir - Dashboard</title>
 
