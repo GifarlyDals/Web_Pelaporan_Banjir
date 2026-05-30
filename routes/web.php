@@ -14,9 +14,15 @@ use App\Http\Controllers\CUser;
 Route::get('/', [CLandingPage::class, 'index'])->name('');
 
 
+use App\Http\Controllers\SoapController;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 
+Route::get('/soap/laporan.wsdl', [SoapController::class, 'wsdl']);
 
+Route::post('/soap/server', [SoapController::class, 'handle'])
+    ->withoutMiddleware([PreventRequestForgery::class]);
 
+Route::get('/soap/server', [SoapController::class, 'wsdl']);
 // ======================
 // REGISTER
 // ======================

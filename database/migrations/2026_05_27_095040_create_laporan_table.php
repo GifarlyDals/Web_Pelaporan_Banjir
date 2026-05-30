@@ -37,10 +37,11 @@ return new class extends Migration
                 ->nullable();
 
             $table->enum('status', [
-                'menunggu_laporan',
-                'laporan_diverifikasi',
-                'laporan_selesai'
-            ])->default('menunggu_laporan');
+                'menunggu',
+                'diverifikasi',
+                'selesai',
+                'ditolak'
+            ])->default('menunggu');
 
             $table->timestamps();
         });

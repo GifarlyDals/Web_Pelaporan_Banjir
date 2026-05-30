@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions
+    name="LaporanBanjirService"
+    targetNamespace="http://localhost/soap/laporan"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://localhost/soap/laporan"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+>
+
+  <types>
+    <xsd:schema targetNamespace="http://localhost/soap/laporan">
+
+      <xsd:complexType name="LaporanItem">
+        <xsd:sequence>
+          <xsd:element name="id"          type="xsd:int"/>
+          <xsd:element name="user_id"     type="xsd:int"/>
+          <xsd:element name="user_name"   type="xsd:string"/>
+          <xsd:element name="user_email"  type="xsd:string"/>
+          <xsd:element name="judul"       type="xsd:string"/>
+          <xsd:element name="deskripsi"   type="xsd:string"/>
+          <xsd:element name="tinggi_air"  type="xsd:int"/>
+          <xsd:element name="lokasi"      type="xsd:string"/>
+          <xsd:element name="latitude"    type="xsd:string"/>
+          <xsd:element name="longitude"   type="xsd:string"/>
+          <xsd:element name="gambar"      type="xsd:string"/>
+          <xsd:element name="status"      type="xsd:string"/>
+          <xsd:element name="created_at"  type="xsd:string"/>
+          <xsd:element name="updated_at"  type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfLaporan">
+        <xsd:sequence>
+          <xsd:element name="item" type="tns:LaporanItem" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="JumlahLaporan">
+        <xsd:sequence>
+          <xsd:element name="menunggu_laporan"     type="xsd:int"/>
+          <xsd:element name="laporan_diverifikasi" type="xsd:int"/>
+          <xsd:element name="laporan_selesai"      type="xsd:int"/>
+          <xsd:element name="total"                type="xsd:int"/>
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <!-- getJumlahLaporan -->
+      <xsd:element name="getJumlahLaporanRequest">
+        <xsd:complexType><xsd:sequence/></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getJumlahLaporanResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="return" type="tns:JumlahLaporan"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <!-- getSemuaLaporan -->
+      <xsd:element name="getSemuaLaporanRequest">
+        <xsd:complexType><xsd:sequence/></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getSemuaLaporanResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="return" type="tns:ArrayOfLaporan"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <!-- getLaporanById -->
+      <xsd:element name="getLaporanByIdRequest">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="id" type="xsd:int"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getLaporanByIdResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="return" type="tns:LaporanItem"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+      <!-- getLaporanTerverifikasi -->
+      <xsd:element name="getLaporanTerverifikasiRequest">
+        <xsd:complexType><xsd:sequence/></xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getLaporanTerverifikasiResponse">
+        <xsd:complexType><xsd:sequence>
+          <xsd:element name="return" type="tns:ArrayOfLaporan"/>
+        </xsd:sequence></xsd:complexType>
+      </xsd:element>
+
+    </xsd:schema>
+  </types>
+
+  <!-- MESSAGES -->
+  <message name="getJumlahLaporanInput">
+    <part name="parameters" element="tns:getJumlahLaporanRequest"/>
+  </message>
+  <message name="getJumlahLaporanOutput">
+    <part name="parameters" element="tns:getJumlahLaporanResponse"/>
+  </message>
+
+  <message name="getSemuaLaporanInput">
+    <part name="parameters" element="tns:getSemuaLaporanRequest"/>
+  </message>
+  <message name="getSemuaLaporanOutput">
+    <part name="parameters" element="tns:getSemuaLaporanResponse"/>
+  </message>
+
+  <message name="getLaporanByIdInput">
+    <part name="parameters" element="tns:getLaporanByIdRequest"/>
+  </message>
+  <message name="getLaporanByIdOutput">
+    <part name="parameters" element="tns:getLaporanByIdResponse"/>
+  </message>
+
+  <message name="getLaporanTerverifikasiInput">
+    <part name="parameters" element="tns:getLaporanTerverifikasiRequest"/>
+  </message>
+  <message name="getLaporanTerverifikasiOutput">
+    <part name="parameters" element="tns:getLaporanTerverifikasiResponse"/>
+  </message>
+
+  <!-- PORT TYPE -->
+  <portType name="LaporanPortType">
+    <operation name="getJumlahLaporan">
+      <input  message="tns:getJumlahLaporanInput"/>
+      <output message="tns:getJumlahLaporanOutput"/>
+    </operation>
+    <operation name="getSemuaLaporan">
+      <input  message="tns:getSemuaLaporanInput"/>
+      <output message="tns:getSemuaLaporanOutput"/>
+    </operation>
+    <operation name="getLaporanById">
+      <input  message="tns:getLaporanByIdInput"/>
+      <output message="tns:getLaporanByIdOutput"/>
+    </operation>
+    <operation name="getLaporanTerverifikasi">
+      <input  message="tns:getLaporanTerverifikasiInput"/>
+      <output message="tns:getLaporanTerverifikasiOutput"/>
+    </operation>
+  </portType>
+
+  <!-- BINDING -->
+  <binding name="LaporanBinding" type="tns:LaporanPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getJumlahLaporan">
+      <soap:operation soapAction="getJumlahLaporan"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+    <operation name="getSemuaLaporan">
+      <soap:operation soapAction="getSemuaLaporan"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+    <operation name="getLaporanById">
+      <soap:operation soapAction="getLaporanById"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+    <operation name="getLaporanTerverifikasi">
+      <soap:operation soapAction="getLaporanTerverifikasi"/>
+      <input><soap:body use="literal"/></input>
+      <output><soap:body use="literal"/></output>
+    </operation>
+  </binding>
+
+  <!-- SERVICE -->
+  <service name="LaporanBanjirService">
+    <port name="LaporanPort" binding="tns:LaporanBinding">
+      <soap:address location="http://localhost/LaporBanjir/public/soap/server"/>
+    </port>
+  </service>
+
+</definitions>
